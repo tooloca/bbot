@@ -31,12 +31,11 @@ def create_llm(config: Config, model_name: str):
         headers["Helicone-Auth"] = f"Bearer {config.helicone_key}"
         headers["Helicone-Cache-Enabled"] = "true"
 
-    llm = ChatOpenAI(
+    return ChatOpenAI(
         model_name=model_name,
         # temperature=0,
         model_kwargs={"headers": headers, "top_p": 0.1},
     )
-    return llm
 
 
 async def call_llm(

@@ -45,11 +45,7 @@ async def get_pages(query: str) -> str:
     page_titles = wikipedia.search(query, results=5)
     pages = await asyncio.gather(*(get_page(title) for title in page_titles))
 
-    result = []
-    for page in pages:
-        if page:
-            result.append(f"-- Page: {page.title}\n{page.summary}")
-
+    result = [f"-- Page: {page.title}\n{page.summary}" for page in pages if page]
     return "\n".join(result)
 
 
@@ -67,7 +63,6 @@ class WikipediaPack(SystemBasePack):
         try:
             pages = await get_pages(question_to_ask)
             prompt = PROMPT_TEMPLATE.format(question=question_to_ask, pages=pages)
-            response = await acall_llm(prompt, self.allm)
-            return response
+            return await acall_llm(prompt, self.allm)
         except Exception as e:
             return f"Error: {e}"

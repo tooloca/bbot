@@ -76,6 +76,4 @@ class Step:
         if plan:
             kwargs["plan"] = plan
 
-        step = cls(**kwargs)
-
-        return step
+        return cls(**kwargs)

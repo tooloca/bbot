@@ -20,7 +20,7 @@ async def test_revenue_lookup(task, body_fixture):
     assert len(body.config.openai_api_key) > 1
     assert len(body.current_task_execution.packs) >= 3
 
-    for i in range(0, 8):
+    for _ in range(0, 8):
         await body.cycle()
         if body.is_done:
             break

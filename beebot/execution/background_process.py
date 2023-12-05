@@ -49,9 +49,7 @@ class BackgroundProcess:
 
     @property
     def pid(self) -> Union[int, None]:
-        if self.process:
-            return self.process.pid
-        return None
+        return self.process.pid if self.process else None
 
     def poll(self):
         return self.process.poll()

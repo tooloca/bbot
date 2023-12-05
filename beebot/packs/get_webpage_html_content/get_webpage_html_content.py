@@ -38,6 +38,4 @@ class GetWebpageHtmlContent(Pack):
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as response:
                 text = await response.text()
-                if self.filter_threshold:
-                    return text[: self.filter_threshold]
-                return text
+                return text[: self.filter_threshold] if self.filter_threshold else text

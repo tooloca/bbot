@@ -59,9 +59,7 @@ class ExtractInformationFromWebpage(Pack):
             playwright.stop()
 
         soup = BeautifulSoup(html, "html.parser")
-        body_element = soup.find("body")
-
-        if body_element:
+        if body_element := soup.find("body"):
             text = body_element.get_text(separator="\n")[:8000]
         else:
             return "Error: Could not summarize URL."
@@ -73,8 +71,7 @@ class ExtractInformationFromWebpage(Pack):
         else:
             prompt = PROMPT_TEMPLATE.format(content=text, url=url)
 
-        response = call_llm(prompt, self.llm)
-        return response
+        return call_llm(prompt, self.llm)
 
     async def _arun(self, url: str, information: str = "") -> str:
         async with async_playwright() as playwright:
@@ -85,9 +82,7 @@ class ExtractInformationFromWebpage(Pack):
             html = await page.content()
 
         soup = BeautifulSoup(html, "html.parser")
-        body_element = soup.find("body")
-
-        if body_element:
+        if body_element := soup.find("body"):
             text = body_element.get_text(separator="\n")[:8000]
         else:
             return "Error: Could not summarize URL."
@@ -99,6 +94,4 @@ class ExtractInformationFromWebpage(Pack):
         else:
             prompt = PROMPT_TEMPLATE.format(content=text, url=url)
 
-        response = await acall_llm(prompt, self.allm)
-
-        return response
+        return await acall_llm(prompt, self.allm)

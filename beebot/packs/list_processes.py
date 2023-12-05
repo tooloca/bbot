@@ -17,13 +17,11 @@ class ListProcesses(SystemBasePack):
     categories = ["Multiprocess"]
 
     def _run(self) -> str:
-        running_processes = [
+        if running_processes := [
             f"PID {pid}: running."
             for (pid, process) in self.body.processes.items()
             if process.poll() is None
-        ]
-
-        if running_processes:
+        ]:
             return " ".join(running_processes)
 
         return "No processes running"

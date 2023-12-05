@@ -28,10 +28,10 @@ class BaseAgent:
         task = self.task_execution.instructions
         variables = self.compile_variables()
 
-        files = []
-        for document in await self.task_execution.body.file_manager.all_documents():
-            files.append(document.name)
-
+        files = [
+            document.name
+            for document in await self.task_execution.body.file_manager.all_documents()
+        ]
         functions = functions_detail_list(self.task_execution.packs.values())
         history = await self.task_execution.compile_history()
 

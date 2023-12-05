@@ -78,7 +78,7 @@ class TaskExecution:
 
         from beebot.agents.base_agent import BaseAgent
 
-        agent_classes = [agent for agent in BaseAgent.__subclasses__()]
+        agent_classes = list(BaseAgent.__subclasses__())
         self.agent = BaseAgent(self)
         for agent_class in agent_classes:
             if self.agent_name == agent_class.NAME:
@@ -146,7 +146,7 @@ class TaskExecution:
         if not self.current_step:
             await self.create_new_step()
 
-        if not self.state.current_state == TaskStateMachine.oversight:
+        if self.state.current_state != TaskStateMachine.oversight:
             self.state.oversee()
 
         await self.get_packs()
