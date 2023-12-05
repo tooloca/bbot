@@ -16,7 +16,7 @@ def task() -> str:
 async def test_background_python(body_fixture, task):
     body = await body_fixture
 
-    for i in range(0, 15):
+    for _ in range(0, 15):
         response = await body.cycle()
         if body.is_done:
             break

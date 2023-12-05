@@ -18,7 +18,7 @@ async def test_system_basic_cycle(task, body_fixture):
     assert isinstance(body.config, Config)
     assert len(body.config.openai_api_key) > 1
 
-    for i in range(0, 8):
+    for _ in range(0, 8):
         await body.cycle()
         if body.is_done:
             break

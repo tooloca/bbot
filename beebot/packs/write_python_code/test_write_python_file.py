@@ -9,7 +9,7 @@ def test_write_python_file_success():
     file_name = "hello_world.py"
     result = pack.run(file_name=file_name, code=code)
 
-    assert result == f"Compiled successfully and saved to hello_world.py."
+    assert result == "Compiled successfully and saved to hello_world.py."
 
     with open(os.path.join("workspace", file_name), "r") as f:
         assert f.read() == code

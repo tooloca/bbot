@@ -27,7 +27,7 @@ class WolframAlphaQuery(Pack):
 
     def _run(self, query: str) -> list[str]:
         if not os.environ.get("WOLFRAM_ALPHA_APPID"):
-            return f"WolframAlpha is not supported as the WOLFRAM_ALPHA_APPID environment variable is not set"
+            return "WolframAlpha is not supported as the WOLFRAM_ALPHA_APPID environment variable is not set"
 
         return WolframAlphaAPIWrapper().run(query)
 

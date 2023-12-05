@@ -62,14 +62,10 @@ class DatabaseFileManager(FileManager):
             str: The content of the file. If the file does not exist, returns an error message.
         """
         documents = await self.current_step.documents
-        document = documents.get(file_path)
-        if document:
+        if document := documents.get(file_path):
             return document.content
-        else:
-            nonlocal_file = await DocumentModel.get_or_none(name=file_path)
-            if nonlocal_file:
-                return nonlocal_file.content
-            return "Error: File not found"
+        nonlocal_file = await DocumentModel.get_or_none(name=file_path)
+        return nonlocal_file.content if nonlocal_file else "Error: File not found"
 
     async def awrite_file(self, file_path: str, content: str) -> str:
         """Writes to a file in the virtual file system in RAM.
@@ -146,12 +142,12 @@ class DatabaseFileManager(FileManager):
 
         file_paths = [dm.document.name for dm in document_steps]
 
-        files_in_dir = [
+        if files_in_dir := [
             file_path
             for file_path in file_paths
-            if file_path.startswith(dir_path) and file_path not in self.IGNORE_FILES
-        ]
-        if files_in_dir:
+            if file_path.startswith(dir_path)
+            and file_path not in self.IGNORE_FILES
+        ]:
             return "\n".join(files_in_dir)
         else:
             return f"Error: No such directory {dir_path}."

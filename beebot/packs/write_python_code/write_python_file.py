@@ -53,10 +53,10 @@ class WritePythonCode(Pack):
                 universal_newlines=True,
                 cwd=self.config.workspace_path,
             )
-            output = "\n".join([process.stdout.strip(), process.stderr.strip()]).strip()
-
             if process.returncode:
                 os.unlink(file_path)
+                output = "\n".join([process.stdout.strip(), process.stderr.strip()]).strip()
+
                 return f"Compile error: {output}."
 
             return f"Compiled successfully and saved to {file_name}."

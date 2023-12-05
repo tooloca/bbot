@@ -22,7 +22,7 @@ class GoogleSearch(Pack):
 
     def _run(self, query: str) -> str:
         if not os.environ.get("SERPER_API_KEY"):
-            return f"Google Search is not supported as the SERPER_API_KEY environment variable is not set"
+            return "Google Search is not supported as the SERPER_API_KEY environment variable is not set"
         try:
             return format_results(GoogleSerperAPIWrapper().results(query).get("organic", []))
 
@@ -31,7 +31,7 @@ class GoogleSearch(Pack):
 
     async def _arun(self, query: str) -> str:
         if not os.environ.get("SERPER_API_KEY"):
-            return f"Google Search is not supported as the SERPER_API_KEY environment variable is not set"
+            return "Google Search is not supported as the SERPER_API_KEY environment variable is not set"
         try:
             query_results = await GoogleSerperAPIWrapper().aresults(query)
             return format_results(query_results.get("organic", []))
@@ -41,8 +41,7 @@ class GoogleSearch(Pack):
 
 
 def format_results(results: list[dict[str, str]]) -> str:
-    formatted_results = []
-    for result in results:
-        formatted_results.append(f"{result.get('link')}: {result.get('snippet')}")
-
+    formatted_results = [
+        f"{result.get('link')}: {result.get('snippet')}" for result in results
+    ]
     return f"Your search results are: {' | '.join(formatted_results)}"

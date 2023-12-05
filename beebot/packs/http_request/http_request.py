@@ -31,17 +31,12 @@ class HttpRequest(Pack):
     categories = ["Web"]
 
     def _run(self, url: str, method: str = "GET", data: str = None, headers: str = None) -> str:
-        headers_dict = {}
-        if headers:
-            headers_dict = json.loads(headers)
+        headers_dict = json.loads(headers) if headers else {}
         response = requests.request(method, url, headers=headers_dict, data=data)
         return f"HTTP Response {response.status_code}: {response.content}"
 
     async def _arun(self, url: str, method: str = "GET", data: str = None, headers: str = None) -> str:
-        headers_dict = {}
-        if headers:
-            headers_dict = json.loads(headers)
-
+        headers_dict = json.loads(headers) if headers else {}
         async with aiohttp.ClientSession() as session:
             async with session.request(method, url, data=data, headers=headers_dict) as response:
                 text = await response.text()
